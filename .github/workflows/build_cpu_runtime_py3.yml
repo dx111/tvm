@@ -18,7 +18,7 @@ env:
   IMAGE_NAME: tvm
   IMAGE_TYPE: py3
   DOCKERFILE_NAME: Dockerfile.py3
-  WORKING_DIR: docker/cpu/runtime
+  WORKING_DIR: ./docker/cpu/runtime
 
 jobs:
   push:
