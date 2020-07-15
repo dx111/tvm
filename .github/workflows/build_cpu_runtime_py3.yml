@@ -18,7 +18,7 @@ env:
   IMAGE_NAME: tvm
   IMAGE_TYPE: py3
   DOCKERFILE_NAME: Dockerfile.py3
-  WORKING_DIR: docker/cpu/runtime
+ # WORKING_DIR: docker/cpu/runtime
 
 jobs:
   push:
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Build image
-        working-directory: $(WORKING_DIR)
+       # working-directory: $(WORKING_DIR)
         run:  echo $(pwd) && docker build . --file $(DOCKERFILE_NAME) --tag $IMAGE_NAME
 
       - name: Log into registry
