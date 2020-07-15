@@ -22,9 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
+      - name: change directory
+        run: cd docker/cpu/runtime
 
       - name: Build image
-        run: cd docker/cpu/runtime && docker build . --file Dockerfile.py3 --tag $IMAGE_NAME
+        run:  docker build . --file Dockerfile.py3 --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -35,18 +38,8 @@ jobs:
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          # [ "$VERSION" == "master" ] && VERSION=latest
-
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          
+          VERSION=$(echo $(date +%y.%m.%d) | tr '[A-Z]' '[a-z]')
+          
+          docker tag $IMAGE_NAME $IMAGE_ID:py3-$VERSION
           docker push $IMAGE_ID:$VERSION
