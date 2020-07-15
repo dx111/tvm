@@ -16,6 +16,9 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: tvm
+  IMAGE_TYPE: py3
+  DOCKERFILE_PATH: docker/cpu/runtime
+  DOCKERFILE_NAME: Dockerfile.py3
 
 jobs:
   push:
@@ -23,11 +26,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: change directory
-        run: cd docker/cpu/runtime
-
       - name: Build image
-        run:  docker build . --file Dockerfile.py3 --tag $IMAGE_NAME
+        working-directory: ${{DOCKERFILE_PATH}}
+        run:  docker build . --file ${{DOCKERFILE_NAME}} --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -41,5 +42,5 @@ jobs:
           
           VERSION=$(echo $(date +%y.%m.%d) | tr '[A-Z]' '[a-z]')
           
-          docker tag $IMAGE_NAME $IMAGE_ID:py3-$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:${{IMAGE_TYPE}}-$VERSION
           docker push $IMAGE_ID:$VERSION
