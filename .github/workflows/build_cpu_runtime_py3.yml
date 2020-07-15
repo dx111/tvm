@@ -43,4 +43,4 @@ jobs:
           VERSION=$(echo $(date +%y.%m.%d) | tr '[A-Z]' '[a-z]')
           
           docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_TYPE-$VERSION
-          docker push $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$IMAGE_TYPE-$VERSION
