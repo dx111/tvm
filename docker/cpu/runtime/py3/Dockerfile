@@ -1,4 +1,4 @@
-FROM python:3.7-slim AS build_env
+FROM python:3.7-slim
 
 ARG TVM_VERSION=v0.6.1
 
@@ -23,11 +23,25 @@ RUN cd tvm && \
     cp cmake/config.cmake build && \
     cd build && \
     cmake .. && \
-    make runtime -j && \
-    cd ../python && \
-    python setup.py install && \
-    cd ../topi/python && \
-    python setup.py install
+    make runtime -j 
+
+RUN python3 -m pip install --user --upgrade --no-cache-dir \
+    numpy \
+    decorator \
+    attrs \
+    opencv-python \ 
+    scipy \
+    uvicorn \
+    fastapi
+
+WORKDIR /opt/tvm
+
+RUN cd python && \
+    python setup.py install --user
+
+WORKDIR /opt/tvm
+RUN cd topi/python && \
+    python setup.py install --user
 
 
 RUN apt-get –purge remove \
@@ -36,11 +50,3 @@ RUN apt-get –purge remove \
     cmake \
     python3-dev
 
-RUN python3 -m pip install --upgrade --no-cache-dir \
-    numpy \
-    decorator \
-    attrs \
-    opencv-python \ 
-    scipy \
-    uvicorn \
-    fastapi
