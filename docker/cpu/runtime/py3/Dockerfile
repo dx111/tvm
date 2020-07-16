@@ -24,7 +24,7 @@ RUN cd tvm && \
     cd build && \
     cmake .. && \
     make runtime -j && \
-    cd python && \
+    cd ../python && \
     python setup.py install && \
     cd ../topi/python && \
     python setup.py install
