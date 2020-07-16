@@ -30,7 +30,7 @@ WORKDIR /opt/tvm
 RUN cd python && \
     python setup.py install 
 
-RUN apt-get –purge remove \
+RUN apt-get autoremove –-purge -y \
     build-essential \
     git \
     cmake \
