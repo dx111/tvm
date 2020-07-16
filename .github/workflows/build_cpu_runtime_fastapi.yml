@@ -16,9 +16,9 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: tvm
-  IMAGE_TYPE: py3
+  IMAGE_TYPE: fastapi
   DOCKERFILE_NAME: Dockerfile
-  WORKING_DIR: docker/cpu/runtime/py3
+  WORKING_DIR: docker/cpu/runtime/fastapi
 
 jobs:
   push:
