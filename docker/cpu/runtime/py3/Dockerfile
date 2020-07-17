@@ -16,7 +16,8 @@ RUN apt-get update && apt install -y \
 
 WORKDIR /opt
 
-RUN git clone --recursive --branch ${TVM_VERSION} https://github.com/apache/incubator-tvm tvm
+# RUN git clone --recursive --branch ${TVM_VERSION} https://github.com/apache/incubator-tvm tvm
+RUN git clone --recursive https://github.com/apache/incubator-tvm tvm
     
 RUN cd tvm && \ 
     mkdir build && \
